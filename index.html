@@ -304,47 +304,29 @@ This helps break down social barriers and promotes unity.</p>
 
  
 
-<div class="container" id="contact">
-  <h2>Contact Us</h2>
-  <form id="contactForm">
-    <input type="text" name="name" placeholder="Your Name" required maxlength="100">
-    <input type="email" name="email" placeholder="Your Email" required>
-    <textarea name="message" rows="5" placeholder="Your Message" required maxlength="1000"></textarea>
-    <button type="submit" onclick ="Sendmail()">Send Message</button>
-  </form>
-</div>
+<form id="contact-form">
+  <input type="text" name="name" placeholder="Your Name" required />
+  <input type="email" name="email" placeholder="Your Email" required />
+  <textarea name="message" placeholder="Your Message" required></textarea>
+  <button type="submit">Send</button>
+</form>
 
 
-
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-       function Sendmail() {
-    // Get form data
-    const name = document.querySelector('input[name="name"]').value;
-    const email = document.querySelector('input[name="email"]').value;
-    const message = document.querySelector('textarea[name="message"]').value;
-    
-    // Template parameters that match your EmailJS template
-    const templateParams = {
-        from_name: name,
-        from_email: email,
-        message: message,
-        to_email: 'your-email@example.com' // Replace with your email
-    };
-    
-    // Send email using EmailJS
-    emailjs.send('service_tu6aosb', 'template_rjsvulf', templateParams)
-    .then(function(response) {
-        console.log('SUCCESS!', response.status, response.text);
-        alert('Message sent successfully!');
-        document.getElementById('contactForm').reset();
-    }, function(error) {
-        console.log('FAILED...', error);
-        alert('Failed to send message. Please try again.');
-    });
-}
-</script>
+  (function(){
+    emailjs.init("UI8PeQ1SSR5vrRLog"); // 👈 Replace with your Public Key
+  })();
 
-
+  document.getElementById("contact-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    emailjs.sendForm("service_tu6aosb", "template_rjsvulf", this)
+      .then(() => {
+        alert("Message sent successfully!");
+      }, (err) => {
+        alert("Failed to send: " + JSON.stringify(err));
+      });
+  });
 </script>
 
    <footer>
@@ -371,6 +353,7 @@ This helps break down social barriers and promotes unity.</p>
   </footer>
 </body>
 </html>
+
 
 
 
